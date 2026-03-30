@@ -1,34 +1,49 @@
 .list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
-    gap: 1.25rem;
-  }
-  
-  .item {
-    margin: 0;
-  }
-  
-  .empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 4rem 1rem;
-    gap: 0.5rem;
-  }
-  
-  .emptyText {
-    margin: 0;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #1a1a1a;
-  }
-  
-  .emptyHint {
-    margin: 0;
-    font-size: 0.9rem;
-    color: #6b645a;
-  }
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  gap: 1.6rem;
+}
+
+.item { margin: 0; }
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 1rem;
+  gap: 0.6rem;
+  text-align: center;
+}
+
+.emptyHeart {
+  font-size: 3.5rem;
+  color: #c9b8a8;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.45; }
+  50% { transform: scale(1.1); opacity: 0.75; }
+}
+
+.emptyText {
+  margin: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #3a3028;
+}
+
+.emptyHint {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #9c9080;
+  max-width: 28ch;
+  line-height: 1.65;
+}

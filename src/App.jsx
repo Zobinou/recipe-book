@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react'
 import recipes from './data/recipes.json'
 import styles from './App.module.css'
 import RecipeList from './components/RecipeList/RecipeList.jsx'
-import FavoritesList from './components/FavoritesList/List.jsx';
+import FavoritesList from './components/FavoritesList/List.jsx'
 import useFavorites from './hooks/useFavorites.js'
 
 const CATEGORIES = ['Toutes', ...new Set(recipes.map((r) => r.category))]
@@ -29,8 +29,11 @@ export default function App() {
   return (
     <div className={styles.app}>
       <header className={styles.header}>
-        <div className={styles.headerRow}>
-          <h1 className={styles.title}>Recipe Book</h1>
+        <div className={styles.headerTop}>
+          <div className={styles.brand}>
+            <h1 className={styles.title}>Recipe Book</h1>
+            <p className={styles.subtitle}>{recipes.length} recettes · fait maison</p>
+          </div>
           <div className={styles.controls}>
             <nav className={styles.tabs}>
               <button
@@ -38,23 +41,22 @@ export default function App() {
                 className={`${styles.tab} ${view === 'all' ? styles.tabActive : ''}`}
                 onClick={() => setView('all')}
               >
-                Toutes les recettes
+                Toutes
               </button>
               <button
                 type="button"
                 className={`${styles.tab} ${view === 'favorites' ? styles.tabActive : ''}`}
                 onClick={() => setView('favorites')}
               >
-                ♥ Favoris {favorites.length > 0 && `(${favorites.length})`}
+                ♥ Favoris
+                {favorites.length > 0 && (
+                  <span className={styles.favCount}>{favorites.length}</span>
+                )}
               </button>
             </nav>
             {view === 'all' && (
-              <button
-                type="button"
-                className={styles.toggle}
-                onClick={handleToggleOrder}
-              >
-                Inverser l'ordre
+              <button type="button" className={styles.toggle} onClick={handleToggleOrder}>
+                ↕ Inverser
               </button>
             )}
           </div>
@@ -63,10 +65,9 @@ export default function App() {
         {view === 'all' && (
           <div className={styles.filterRow}>
             <div className={styles.searchWrapper}>
-            <svg className={styles.searchIcon} xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-  <circle cx="11" cy="11" r="8"/>
-  <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-</svg>
+              <svg className={styles.searchIcon} xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
               <input
                 className={styles.searchInput}
                 type="text"
@@ -75,13 +76,7 @@ export default function App() {
                 onChange={(e) => setSearch(e.target.value)}
               />
               {search && (
-                <button
-                  className={styles.clearBtn}
-                  onClick={() => setSearch('')}
-                  aria-label="Effacer"
-                >
-                  ✕
-                </button>
+                <button className={styles.clearBtn} onClick={() => setSearch('')} aria-label="Effacer">✕</button>
               )}
             </div>
             <div className={styles.categories}>
@@ -102,25 +97,16 @@ export default function App() {
 
       <main className={styles.main}>
         {view === 'all' ? (
-          <>
-            {filteredRecipes.length === 0 ? (
-              <div className={styles.noResults}>
-                <p>Aucune recette trouvée pour "<strong>{search}</strong>".</p>
-              </div>
-            ) : (
-              <RecipeList
-                recipes={filteredRecipes}
-                favorites={favorites}
-                onToggleFavorite={toggleFavorite}
-              />
-            )}
-          </>
+          filteredRecipes.length === 0 ? (
+            <div className={styles.noResults}>
+              <span className={styles.noResultsIcon}>🍽️</span>
+              <p>Aucune recette pour <strong>"{search}"</strong></p>
+            </div>
+          ) : (
+            <RecipeList recipes={filteredRecipes} favorites={favorites} onToggleFavorite={toggleFavorite} />
+          )
         ) : (
-          <FavoritesList
-            recipes={recipes}
-            favoriteIds={favorites}
-            onToggleFavorite={toggleFavorite}
-          />
+          <FavoritesList recipes={recipes} favoriteIds={favorites} onToggleFavorite={toggleFavorite} />
         )}
       </main>
     </div>
